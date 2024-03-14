@@ -54,6 +54,30 @@ table {
 }
 .banner {
   background-color: #fa534b;
-  color: white;
   padding: 5px 0px;
+}
+
+.banner a{
+  color: white;
+  text-decoration: none;
+}
+
+tr a {
+  display: block;
+}
+
+tr a td {
+  display: inline-block;
+}
+
+.errorMsg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.errorMsg img {
+  width: 500px;
 }

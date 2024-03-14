@@ -4,6 +4,9 @@ import getData from '../services/fetchService';
 import Row from './Rows';
 import 'bootstrap/dist/css/bootstrap.css'
 import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router-dom';
+import Error from './Error';
+import Spinner from 'react-bootstrap/Spinner';
 
 const style ={
     width: '80%',
@@ -11,13 +14,31 @@ const style ={
   }
 function FilesTable() {
     const [filesData, setFilesData] = useState()
+    const [error, setError] = useState(false)
+    const location = useLocation()
+    const fileName = new URLSearchParams(location.search).get('fileName')
 
     useEffect(() =>{
-        getData().then(res => setFilesData(res))
-    }, [] )
+        getData(fileName)
+            .then(res => {
+                setFilesData(res)
+                setError(false)
+            })
+            .catch(err => setError(err))
+    }, [location] )
 
-    if ( !filesData ) return null
-    
+    if (error) {
+        return <Error err={error.response}></Error>
+    }
+
+    if ( !filesData ) {
+        return  (
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        )
+    }
+
     return(
         <Table striped bordered hover style={style} >
             <thead>
