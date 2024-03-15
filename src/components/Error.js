@@ -1,6 +1,6 @@
 
 export default function Error({ err }) {
-    if (err.status === 404) {
+    if (err.code === 'ERR_BAD_REQUEST') {
         return (
             <div className="errorMsg">
                 <img src="./error.png"/>
@@ -8,7 +8,7 @@ export default function Error({ err }) {
             </div>
         )
     } 
-    if (err.status === 500) {
+    if (err.code === 'ERR_BAD_RESPONSE') {
         return (
             <div className="errorMsg">
             <img src="./error.png"/>

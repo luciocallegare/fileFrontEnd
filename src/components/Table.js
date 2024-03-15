@@ -7,28 +7,26 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLocation } from 'react-router-dom';
 import Error from './Error';
 import Spinner from 'react-bootstrap/Spinner';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchFile } from '../redux/slicer';
+
 
 const style ={
     width: '80%',
     margin: '20px auto'
   }
 function FilesTable() {
-    const [filesData, setFilesData] = useState()
-    const [error, setError] = useState(false)
     const location = useLocation()
     const fileName = new URLSearchParams(location.search).get('fileName')
-
+    const dispatch = useDispatch()
+    const filesData = useSelector(state => state)
     useEffect(() =>{
-        getData(fileName)
-            .then(res => {
-                setFilesData(res)
-                setError(false)
-            })
-            .catch(err => setError(err))
+        dispatch(fetchFile(fileName))
     }, [location] )
-
-    if (error) {
-        return <Error err={error.response}></Error>
+    
+    if (filesData.file.error) {
+        const error = filesData.file.error
+        return <Error err={error}></Error>
     }
 
     if ( !filesData ) {
@@ -48,7 +46,7 @@ function FilesTable() {
                 <th>Hex</th>
             </thead>
             <tbody>
-                { filesData?.map( fileData => <Row key={uuidv4()} fileData = { fileData } /> ) }
+                { filesData?.file?.data?.map( fileData => <Row key={uuidv4()} fileData = { fileData } /> ) }
             </tbody>
         </Table>
     )

@@ -16,3 +16,8 @@ To run this app locally run ```npm start```
 
 To get only the information of a specific file, click on one of the names of the file in the table.
 It will only display information related to that file.
+
+# IMPORTANT
+
+In order for this frontend to work, it is important that the backend API is running in the background.
+API backend repo: https://github.com/luciocallegare/fileAPI
